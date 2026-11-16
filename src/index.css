@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
@@ -11,6 +12,13 @@
     --text-dark: #1e293b;
     --text-muted: #64748b;
     --border: #e2e8f0;
+  }
+
+  .dark {
+    --light-bg: #020617;
+    --text-dark: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: #1e293b;
   }
 
   body {
@@ -94,9 +102,10 @@
   left: 0;
   right: 0;
   height: 48px;
-  background: #f8fafc;
+  background: var(--light-bg);
   clip-path: polygon(0 100%, 100% 100%, 100% 0);
   pointer-events: none;
+  transition: background-color 0.2s ease;
 }
 
 .preview-cyber-section {

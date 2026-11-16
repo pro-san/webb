@@ -161,12 +161,40 @@ const TYPEWRITER_WORDS = [
 ];
 
 export default function App() {
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    try {
+      const saved = localStorage.getItem('fbm_theme');
+      if (saved === 'dark' || saved === 'light') return saved;
+    } catch {
+      // ignore storage errors
+    }
+    return 'light';
+  });
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [showBackToTop, setShowBackToTop] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [typedText, setTypedText] = useState<string>('Never Seen Before');
   const [wordIndex, setWordIndex] = useState<number>(0);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
+  // Sync theme to document.documentElement and localStorage
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    try {
+      localStorage.setItem('fbm_theme', theme);
+    } catch {
+      // ignore storage errors
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   // Typewriter effect
   useEffect(() => {
@@ -207,54 +235,65 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8fafc] text-[#1e293b]">
-      {/* TOP BAR CONTRACT: 3 Zones (Brand Wordmark — 5 Nav Links — 1 Primary Action) */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
+    <div className="min-h-screen flex flex-col bg-[#f8fafc] dark:bg-slate-950 text-[#1e293b] dark:text-slate-100 transition-colors duration-200">
+      {/* TOP BAR CONTRACT: 3 Zones (Brand Wordmark — 5 Nav Links — Primary Action & Theme Toggle) */}
+      <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs transition-colors duration-200">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-8">
           {/* Zone 1: Single Text Element Wordmark */}
           <a
             href="#top"
-            className="text-xl font-extrabold tracking-tight text-[#1e3c72] whitespace-nowrap shrink-0"
+            className="text-xl font-extrabold tracking-tight text-[#1e3c72] dark:text-blue-400 whitespace-nowrap shrink-0"
           >
             FBMPrime
           </a>
 
           {/* Zone 2: 5 Concise Single-Line Nav Links */}
-          <nav className="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+          <nav className="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600 dark:text-slate-300">
             <a
               href="#demo-showcase"
-              className="hover:text-blue-600 transition-colors whitespace-nowrap shrink-0"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap shrink-0"
             >
               Live Demo
             </a>
             <a
               href="#features"
-              className="hover:text-blue-600 transition-colors whitespace-nowrap shrink-0"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap shrink-0"
             >
               Features
             </a>
             <a
               href="#workflow"
-              className="hover:text-blue-600 transition-colors whitespace-nowrap shrink-0"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap shrink-0"
             >
               How It Works
             </a>
             <a
               href="#pricing"
-              className="hover:text-blue-600 transition-colors whitespace-nowrap shrink-0"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap shrink-0"
             >
               Pricing
             </a>
             <a
               href="#faq"
-              className="hover:text-blue-600 transition-colors whitespace-nowrap shrink-0"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap shrink-0"
             >
               FAQ
             </a>
           </nav>
 
-          {/* Zone 3: 1 Primary Action (+ Mobile Menu Toggle) */}
+          {/* Zone 3: Theme Toggle + Primary Action (+ Mobile Menu Toggle) */}
           <div className="flex items-center gap-3 shrink-0">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="px-3.5 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold inline-flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              <i className={`fa-solid ${theme === 'dark' ? 'fa-sun text-amber-400' : 'fa-moon text-slate-600'}`} />
+              <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+            </button>
+
             <a
               href="#pricing"
               className="px-5 py-2.5 text-sm font-bold text-white rounded-full bg-gradient-to-r from-[#1e3c72] to-[#2563eb] hover:opacity-95 shadow-md shadow-blue-600/20 transition-all whitespace-nowrap shrink-0"
@@ -265,7 +304,7 @@ export default function App() {
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle navigation menu"
-              className="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 cursor-pointer"
+              className="md:hidden p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
             >
               <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-lg`} />
             </button>
@@ -274,7 +313,7 @@ export default function App() {
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
+          <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-4 space-y-2">
             {[
               { label: 'Live Demo', href: '#demo-showcase' },
               { label: 'Features', href: '#features' },
@@ -287,7 +326,7 @@ export default function App() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 px-3 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                className="block py-2 px-3 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 {item.label}
               </a>
@@ -347,45 +386,45 @@ export default function App() {
 
         {/* STATS BANNER */}
         <div className="max-w-[1120px] mx-auto px-4 sm:px-6 -mt-14 relative z-20 mb-12">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-900/5 border border-slate-200">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 text-center divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-900/5 dark:shadow-black/40 border border-slate-200 dark:border-slate-800 transition-colors duration-200">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 text-center divide-y sm:divide-y-0 sm:divide-x divide-slate-100 dark:divide-slate-800">
               <div className="pt-2 sm:pt-0">
-                <div className="text-2xl sm:text-3xl font-extrabold text-[#1e3c72] font-mono-num mb-1">
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#1e3c72] dark:text-blue-400 font-mono-num mb-1">
                   500+
                 </div>
-                <div className="text-xs font-semibold text-slate-500">
+                <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                   Active License Holders
                 </div>
               </div>
               <div className="pt-2 sm:pt-0">
-                <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 font-mono-num mb-1">
+                <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono-num mb-1">
                   10,000+
                 </div>
-                <div className="text-xs font-semibold text-slate-500">
+                <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                   Verified Accounts Created
                 </div>
               </div>
               <div className="pt-2 sm:pt-0">
-                <div className="text-2xl sm:text-3xl font-extrabold text-amber-500 font-mono-num mb-1">
+                <div className="text-2xl sm:text-3xl font-extrabold text-amber-500 dark:text-amber-400 font-mono-num mb-1">
                   8
                 </div>
-                <div className="text-xs font-semibold text-slate-500">
+                <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                   Core Automation Modules
                 </div>
               </div>
               <div className="pt-2 sm:pt-0">
-                <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 font-mono-num mb-1">
+                <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400 font-mono-num mb-1">
                   24/7
                 </div>
-                <div className="text-xs font-semibold text-slate-500">
+                <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                   Unattended Queue Engine
                 </div>
               </div>
               <div className="col-span-2 sm:col-span-1 pt-2 sm:pt-0">
-                <div className="text-2xl sm:text-3xl font-extrabold text-rose-600 font-mono-num mb-1">
+                <div className="text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400 font-mono-num mb-1">
                   100%
                 </div>
-                <div className="text-xs font-semibold text-slate-500">
+                <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                   Isolated Browser Stealth
                 </div>
               </div>
@@ -397,20 +436,20 @@ export default function App() {
         <CyberShowcase />
 
         {/* CORE MODULES / FEATURES */}
-        <section id="features" className="py-20 bg-[#f8fafc] relative overflow-hidden">
+        <section id="features" className="py-20 bg-[#f8fafc] dark:bg-slate-950 relative overflow-hidden transition-colors duration-200">
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10">
             <div className="text-center mb-14">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2">
                 Core Modules
               </p>
               <h2
-                className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3"
+                className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mb-3"
                 style={{ textWrap: 'balance' }}
               >
                 One Desktop Suite. Complete Lifecycle Automation.
               </h2>
               <div className="h-1 w-16 bg-gradient-to-r from-[#1e3c72] to-blue-500 rounded-full mx-auto mb-4" />
-              <p className="text-slate-600 max-w-xl mx-auto text-sm sm:text-base">
+              <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
                 Automate the entire Facebook account pipeline — from initial OTP verification to human profile setup, page creation, and daily feed engagement.
               </p>
             </div>
@@ -421,7 +460,7 @@ export default function App() {
                 return (
                   <div
                     key={mod.id}
-                    className={`${spanClass} bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-slate-900/5 hover:border-blue-500/50 group`}
+                    className={`${spanClass} bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-slate-900/5 dark:hover:shadow-black/40 hover:border-blue-500/50 dark:hover:border-blue-500/60 group`}
                   >
                     <div>
                       <div className="flex items-center justify-between gap-3 mb-5">
@@ -434,27 +473,27 @@ export default function App() {
                         >
                           <i className={mod.iconClass} />
                         </div>
-                        <span className="font-mono-num text-xs font-bold text-slate-400">
+                        <span className="font-mono-num text-xs font-bold text-slate-400 dark:text-slate-500">
                           {mod.number}. {mod.highlight ? mod.highlight : 'Module'}
                         </span>
                       </div>
 
-                      <h3 className="text-lg font-extrabold text-slate-900 mb-2">
+                      <h3 className="text-lg font-extrabold text-slate-900 dark:text-slate-100 mb-2">
                         {mod.title}
                       </h3>
 
-                      <p className="text-slate-600 text-sm leading-relaxed mb-5">
+                      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-5">
                         {mod.description}
                       </p>
                     </div>
 
                     {/* Zero-Pill Metadata Discipline: Clean unboxed text with subtle · separators */}
-                    <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-semibold text-blue-700">
+                    <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-semibold text-blue-700 dark:text-blue-400">
                       {mod.capabilities.map((cap, i) => (
                         <React.Fragment key={cap}>
                           <span>{cap}</span>
                           {i < mod.capabilities.length - 1 && (
-                            <span aria-hidden="true" className="text-slate-300">
+                            <span aria-hidden="true" className="text-slate-300 dark:text-slate-700">
                               ·
                             </span>
                           )}
@@ -469,17 +508,17 @@ export default function App() {
         </section>
 
         {/* HOW IT WORKS (4-STEP WORKFLOW) */}
-        <section id="workflow" className="py-20 bg-white border-y border-slate-200">
+        <section id="workflow" className="py-20 bg-white dark:bg-slate-900/60 border-y border-slate-200 dark:border-slate-800 transition-colors duration-200">
           <div className="max-w-[1120px] mx-auto px-4 sm:px-6">
             <div className="text-center mb-14">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2">
                 Workflow
               </p>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mb-3">
                 How Does FBM Prime Work?
               </h2>
               <div className="h-1 w-16 bg-gradient-to-r from-[#1e3c72] to-blue-500 rounded-full mx-auto mb-4" />
-              <p className="text-slate-600 text-sm sm:text-base">
+              <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
                 Launch your complete multi-browser automation pipeline in 4 straightforward steps.
               </p>
             </div>
@@ -511,15 +550,15 @@ export default function App() {
                 ].map((item) => (
                   <div
                     key={item.step}
-                    className="bg-white border border-slate-200 rounded-2xl p-6 text-center transition-all duration-200 hover:-translate-y-1.5 hover:shadow-lg hover:border-blue-500"
+                    className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 text-center transition-all duration-200 hover:-translate-y-1.5 hover:shadow-lg hover:border-blue-500 dark:hover:border-blue-500"
                   >
-                    <div className="w-15 h-15 rounded-full bg-gradient-to-br from-[#1e3c72] to-[#2563eb] text-white font-mono-num font-extrabold text-xl flex items-center justify-center mx-auto mb-5 shadow-md shadow-blue-600/25 border-4 border-white">
+                    <div className="w-15 h-15 rounded-full bg-gradient-to-br from-[#1e3c72] to-[#2563eb] text-white font-mono-num font-extrabold text-xl flex items-center justify-center mx-auto mb-5 shadow-md shadow-blue-600/25 border-4 border-white dark:border-slate-800">
                       {item.step}
                     </div>
-                    <h3 className="text-base font-extrabold text-slate-900 mb-2">
+                    <h3 className="text-base font-extrabold text-slate-900 dark:text-slate-100 mb-2">
                       {item.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                       {item.desc}
                     </p>
                   </div>
@@ -530,13 +569,13 @@ export default function App() {
         </section>
 
         {/* TESTIMONIALS */}
-        <section className="py-20 bg-[#f8fafc]">
+        <section className="py-20 bg-[#f8fafc] dark:bg-slate-950 transition-colors duration-200">
           <div className="max-w-[1120px] mx-auto px-4 sm:px-6">
             <div className="text-center mb-14">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2">
                 Verified User Feedback
               </p>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mb-3">
                 What Marketing Teams &amp; Agencies Say
               </h2>
               <div className="h-1 w-16 bg-gradient-to-r from-[#1e3c72] to-blue-500 rounded-full mx-auto" />
@@ -571,23 +610,23 @@ export default function App() {
               ].map((t) => (
                 <div
                   key={t.name}
-                  className="bg-white border border-slate-200 rounded-2xl p-7 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-blue-500/50"
+                  className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-7 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-blue-500/50 dark:hover:border-blue-500/60"
                 >
                   <div>
                     <div className="text-amber-400 text-sm mb-4 tracking-widest">
                       {'★'.repeat(t.stars)}
                     </div>
-                    <p className="text-slate-600 text-sm italic leading-relaxed mb-6">
+                    <p className="text-slate-600 dark:text-slate-300 text-sm italic leading-relaxed mb-6">
                       &ldquo;{t.quote}&rdquo;
                     </p>
                   </div>
-                  <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+                  <div className="flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#1e3c72] to-[#2563eb] text-white font-bold text-sm flex items-center justify-center shrink-0">
                       {t.initial}
                     </div>
                     <div>
-                      <div className="text-sm font-bold text-slate-900">{t.name}</div>
-                      <div className="text-xs text-slate-500">{t.role}</div>
+                      <div className="text-sm font-bold text-slate-900 dark:text-slate-100">{t.name}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">{t.role}</div>
                     </div>
                   </div>
                 </div>
@@ -597,78 +636,78 @@ export default function App() {
         </section>
 
         {/* PC SYSTEM REQUIREMENTS */}
-        <section id="specs" className="py-20 bg-white border-y border-slate-200">
+        <section id="specs" className="py-20 bg-white dark:bg-slate-900/60 border-y border-slate-200 dark:border-slate-800 transition-colors duration-200">
           <div className="max-w-[1000px] mx-auto px-4 sm:px-6">
             <div className="text-center mb-14">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2">
                 System Requirements
               </p>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mb-3">
                 How Powerful Does Your PC Need to Be?
               </h2>
               <div className="h-1 w-16 bg-gradient-to-r from-[#1e3c72] to-blue-500 rounded-full mx-auto mb-4" />
-              <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+              <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
                 FBM Prime orchestrates real Chromium browser instances via Playwright. A 64-bit Windows environment or Windows VPS is required.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Minimum */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-7">
-                <h3 className="text-sm font-extrabold uppercase tracking-wider text-[#1e3c72] mb-5 flex items-center gap-2">
-                  <i className="fa-solid fa-microchip text-blue-600" />
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-7">
+                <h3 className="text-sm font-extrabold uppercase tracking-wider text-[#1e3c72] dark:text-blue-400 mb-5 flex items-center gap-2">
+                  <i className="fa-solid fa-microchip text-blue-600 dark:text-blue-400" />
                   <span>Minimum Requirements (5 Windows)</span>
                 </h3>
-                <dl className="divide-y divide-slate-100 text-sm">
+                <dl className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
                   <div className="py-3 flex justify-between items-center gap-4">
-                    <dt className="text-slate-500">Operating System</dt>
-                    <dd className="font-bold text-emerald-600">Windows 10 (64-bit)</dd>
+                    <dt className="text-slate-500 dark:text-slate-400">Operating System</dt>
+                    <dd className="font-bold text-emerald-600 dark:text-emerald-400">Windows 10 (64-bit)</dd>
                   </div>
                   <div className="py-3 flex justify-between items-center gap-4">
-                    <dt className="text-slate-500">Processor (CPU)</dt>
-                    <dd className="font-semibold text-slate-800">Intel Core i3 / AMD Ryzen 3</dd>
+                    <dt className="text-slate-500 dark:text-slate-400">Processor (CPU)</dt>
+                    <dd className="font-semibold text-slate-800 dark:text-slate-200">Intel Core i3 / AMD Ryzen 3</dd>
                   </div>
                   <div className="py-3 flex justify-between items-center gap-4">
-                    <dt className="text-slate-500">Memory (RAM)</dt>
-                    <dd className="font-mono-num font-semibold text-slate-800">8 GB RAM</dd>
+                    <dt className="text-slate-500 dark:text-slate-400">Memory (RAM)</dt>
+                    <dd className="font-mono-num font-semibold text-slate-800 dark:text-slate-200">8 GB RAM</dd>
                   </div>
                   <div className="py-3 flex justify-between items-center gap-4">
-                    <dt className="text-slate-500">Free Disk Space</dt>
-                    <dd className="font-mono-num font-semibold text-slate-800">200 MB available</dd>
+                    <dt className="text-slate-500 dark:text-slate-400">Free Disk Space</dt>
+                    <dd className="font-mono-num font-semibold text-slate-800 dark:text-slate-200">200 MB available</dd>
                   </div>
                   <div className="py-3 flex justify-between items-center gap-4">
-                    <dt className="text-slate-500">Network</dt>
-                    <dd className="font-semibold text-slate-800">Stable broadband connection</dd>
+                    <dt className="text-slate-500 dark:text-slate-400">Network</dt>
+                    <dd className="font-semibold text-slate-800 dark:text-slate-200">Stable broadband connection</dd>
                   </div>
                 </dl>
               </div>
 
               {/* Recommended */}
-              <div className="bg-white border-2 border-blue-600 rounded-2xl p-7 shadow-lg shadow-blue-600/5">
-                <h3 className="text-sm font-extrabold uppercase tracking-wider text-blue-600 mb-5 flex items-center gap-2">
-                  <i className="fa-solid fa-rocket text-blue-600" />
+              <div className="bg-white dark:bg-slate-900 border-2 border-blue-600 dark:border-blue-500 rounded-2xl p-7 shadow-lg shadow-blue-600/5">
+                <h3 className="text-sm font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-5 flex items-center gap-2">
+                  <i className="fa-solid fa-rocket text-blue-600 dark:text-blue-400" />
                   <span>Recommended Setup (10–20 Windows)</span>
                 </h3>
-                <dl className="divide-y divide-slate-100 text-sm">
+                <dl className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
                   <div className="py-3 flex justify-between items-center gap-4">
-                    <dt className="text-slate-500">Operating System</dt>
-                    <dd className="font-bold text-emerald-600">Windows 11 (64-bit) / Win Server</dd>
+                    <dt className="text-slate-500 dark:text-slate-400">Operating System</dt>
+                    <dd className="font-bold text-emerald-600 dark:text-emerald-400">Windows 11 (64-bit) / Win Server</dd>
                   </div>
                   <div className="py-3 flex justify-between items-center gap-4">
-                    <dt className="text-slate-500">Processor (CPU)</dt>
-                    <dd className="font-semibold text-slate-800">Intel Core i5 / AMD Ryzen 5</dd>
+                    <dt className="text-slate-500 dark:text-slate-400">Processor (CPU)</dt>
+                    <dd className="font-semibold text-slate-800 dark:text-slate-200">Intel Core i5 / AMD Ryzen 5</dd>
                   </div>
                   <div className="py-3 flex justify-between items-center gap-4">
-                    <dt className="text-slate-500">Memory (RAM)</dt>
-                    <dd className="font-mono-num font-semibold text-slate-800">12 GB+ RAM</dd>
+                    <dt className="text-slate-500 dark:text-slate-400">Memory (RAM)</dt>
+                    <dd className="font-mono-num font-semibold text-slate-800 dark:text-slate-200">12 GB+ RAM</dd>
                   </div>
                   <div className="py-3 flex justify-between items-center gap-4">
-                    <dt className="text-slate-500">Free Disk Space</dt>
-                    <dd className="font-mono-num font-semibold text-slate-800">1 GB SSD available</dd>
+                    <dt className="text-slate-500 dark:text-slate-400">Free Disk Space</dt>
+                    <dd className="font-mono-num font-semibold text-slate-800 dark:text-slate-200">1 GB SSD available</dd>
                   </div>
                   <div className="py-3 flex justify-between items-center gap-4">
-                    <dt className="text-slate-500">Network</dt>
-                    <dd className="font-semibold text-slate-800">High-speed broadband + Proxies</dd>
+                    <dt className="text-slate-500 dark:text-slate-400">Network</dt>
+                    <dd className="font-semibold text-slate-800 dark:text-slate-200">High-speed broadband + Proxies</dd>
                   </div>
                 </dl>
               </div>
@@ -677,41 +716,41 @@ export default function App() {
         </section>
 
         {/* PRICING */}
-        <section id="pricing" className="py-20 bg-[#f8fafc]">
+        <section id="pricing" className="py-20 bg-[#f8fafc] dark:bg-slate-950 transition-colors duration-200">
           <div className="max-w-[1120px] mx-auto px-4 sm:px-6">
             <div className="text-center mb-14">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2">
                 Licensing &amp; Plans
               </p>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mb-3">
                 One All-Access Suite. Flexible Durations.
               </h2>
               <div className="h-1 w-16 bg-gradient-to-r from-[#1e3c72] to-blue-500 rounded-full mx-auto mb-4" />
-              <p className="text-slate-600 text-sm sm:text-base">
+              <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
                 Every license unlocks all 8 modules with unlimited daily runs. Choose the billing cycle that fits your operation.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-7 items-stretch">
               {/* 1 Month */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-7 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1.5 hover:shadow-xl">
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-7 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1.5 hover:shadow-xl">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
                     For Solo Marketers
                   </div>
-                  <h3 className="text-lg font-extrabold text-slate-900 mb-4">
+                  <h3 className="text-lg font-extrabold text-slate-900 dark:text-slate-100 mb-4">
                     1 Month License
                   </h3>
                   <div className="flex items-baseline gap-1 mb-1 font-mono-num">
-                    <span className="text-xl font-bold text-slate-500">$</span>
-                    <span className="text-5xl font-extrabold text-slate-900">10</span>
-                    <span className="text-lg font-semibold text-slate-500">.00</span>
+                    <span className="text-xl font-bold text-slate-500 dark:text-slate-400">$</span>
+                    <span className="text-5xl font-extrabold text-slate-900 dark:text-white">10</span>
+                    <span className="text-lg font-semibold text-slate-500 dark:text-slate-400">.00</span>
                   </div>
-                  <div className="text-xs text-slate-500 mb-6">
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-6">
                     $10.00 / month · Full Suite Access
                   </div>
 
-                  <ul className="space-y-3 text-sm text-slate-600 mb-8">
+                  <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-300 mb-8">
                     <li className="flex items-center gap-2.5">
                       <i className="fa-solid fa-check text-emerald-500 shrink-0" />
                       <span>Full Verify &amp; No Verify Registration</span>
@@ -743,35 +782,35 @@ export default function App() {
                   href="https://wa.me/923241703901?text=Hi!+I+want+to+purchase+FBM+Prime+1+Month"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 px-4 rounded-xl border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold text-sm text-center transition-colors whitespace-nowrap"
+                  className="w-full py-3 px-4 rounded-xl border-2 border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white font-bold text-sm text-center transition-colors whitespace-nowrap"
                 >
                   Get 1 Month License
                 </a>
               </div>
 
               {/* 3 Months (Popular) */}
-              <div className="bg-gradient-to-b from-white to-blue-50/70 border-2 border-blue-600 rounded-2xl p-7 flex flex-col justify-between relative shadow-xl shadow-blue-600/10 transition-all duration-200 hover:-translate-y-1.5">
+              <div className="bg-gradient-to-b from-white to-blue-50/70 dark:from-slate-900 dark:to-blue-950/30 border-2 border-blue-600 dark:border-blue-500 rounded-2xl p-7 flex flex-col justify-between relative shadow-xl shadow-blue-600/10 transition-all duration-200 hover:-translate-y-1.5">
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#1e3c72] to-[#2563eb] text-white text-[11px] font-extrabold uppercase tracking-wider px-4 py-1 rounded-full shadow-md">
                   Most Popular · Save 17%
                 </div>
 
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1 mt-1">
+                  <div className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1 mt-1">
                     For Growing Campaigns
                   </div>
-                  <h3 className="text-lg font-extrabold text-slate-900 mb-4">
+                  <h3 className="text-lg font-extrabold text-slate-900 dark:text-slate-100 mb-4">
                     3 Month License
                   </h3>
                   <div className="flex items-baseline gap-1 mb-1 font-mono-num">
-                    <span className="text-xl font-bold text-slate-500">$</span>
-                    <span className="text-5xl font-extrabold text-blue-600">24</span>
-                    <span className="text-lg font-semibold text-slate-500">.99</span>
+                    <span className="text-xl font-bold text-slate-500 dark:text-slate-400">$</span>
+                    <span className="text-5xl font-extrabold text-blue-600 dark:text-blue-400">24</span>
+                    <span className="text-lg font-semibold text-slate-500 dark:text-slate-400">.99</span>
                   </div>
-                  <div className="text-xs text-slate-600 font-medium mb-6">
+                  <div className="text-xs text-slate-600 dark:text-slate-400 font-medium mb-6">
                     $8.33 / month · Full Suite Access
                   </div>
 
-                  <ul className="space-y-3 text-sm text-slate-700 mb-8">
+                  <ul className="space-y-3 text-sm text-slate-700 dark:text-slate-200 mb-8">
                     <li className="flex items-center gap-2.5">
                       <i className="fa-solid fa-check text-emerald-500 shrink-0" />
                       <span>All 8 Automation Modules Included</span>
@@ -810,24 +849,24 @@ export default function App() {
               </div>
 
               {/* 1 Year */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-7 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1.5 hover:shadow-xl">
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-7 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1.5 hover:shadow-xl">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-1">
+                  <div className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-1">
                     For Agencies · Save 29%
                   </div>
-                  <h3 className="text-lg font-extrabold text-slate-900 mb-4">
+                  <h3 className="text-lg font-extrabold text-slate-900 dark:text-slate-100 mb-4">
                     1 Year License
                   </h3>
                   <div className="flex items-baseline gap-1 mb-1 font-mono-num">
-                    <span className="text-xl font-bold text-slate-500">$</span>
-                    <span className="text-5xl font-extrabold text-slate-900">84</span>
-                    <span className="text-lg font-semibold text-slate-500">.99</span>
+                    <span className="text-xl font-bold text-slate-500 dark:text-slate-400">$</span>
+                    <span className="text-5xl font-extrabold text-slate-900 dark:text-white">84</span>
+                    <span className="text-lg font-semibold text-slate-500 dark:text-slate-400">.99</span>
                   </div>
-                  <div className="text-xs text-slate-500 mb-6">
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-6">
                     $7.08 / month · Best Long-Term Value
                   </div>
 
-                  <ul className="space-y-3 text-sm text-slate-600 mb-8">
+                  <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-300 mb-8">
                     <li className="flex items-center gap-2.5">
                       <i className="fa-solid fa-check text-emerald-500 shrink-0" />
                       <span>All 8 Automation Modules Included</span>
@@ -859,34 +898,34 @@ export default function App() {
                   href="https://wa.me/923241703901?text=Hi!+I+want+to+purchase+FBM+Prime+1+Year"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 px-4 rounded-xl border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold text-sm text-center transition-colors whitespace-nowrap"
+                  className="w-full py-3 px-4 rounded-xl border-2 border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white font-bold text-sm text-center transition-colors whitespace-nowrap"
                 >
                   Get 1 Year License
                 </a>
               </div>
             </div>
 
-            <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 mt-8 text-xs font-medium text-slate-500">
+            <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 mt-8 text-xs font-medium text-slate-500 dark:text-slate-400">
               <span>256-bit SSL Encrypted Delivery</span>
               <span aria-hidden="true">·</span>
               <span>Cloudflare Protected</span>
               <span aria-hidden="true">·</span>
               <span>Instant License Key Activation</span>
             </div>
-            <p className="text-center text-xs text-slate-500 mt-3">
-              All digital license sales are <strong className="text-slate-700">non-refundable</strong>. Full 1-on-1 setup assistance is provided via WhatsApp after purchase.
+            <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-3">
+              All digital license sales are <strong className="text-slate-700 dark:text-slate-200">non-refundable</strong>. Full 1-on-1 setup assistance is provided via WhatsApp after purchase.
             </p>
           </div>
         </section>
 
         {/* FAQ ACCORDION */}
-        <section id="faq" className="py-20 bg-white border-t border-slate-200">
+        <section id="faq" className="py-20 bg-white dark:bg-slate-900/60 border-t border-slate-200 dark:border-slate-800 transition-colors duration-200">
           <div className="max-w-[820px] mx-auto px-4 sm:px-6">
             <div className="text-center mb-12">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2">
                 FAQ
               </p>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mb-3">
                 Frequently Asked Questions
               </h2>
               <div className="h-1 w-16 bg-gradient-to-r from-[#1e3c72] to-blue-500 rounded-full mx-auto" />
@@ -898,8 +937,10 @@ export default function App() {
                 return (
                   <div
                     key={item.question}
-                    className={`bg-white border rounded-2xl overflow-hidden transition-colors ${
-                      isOpen ? 'border-blue-600 shadow-sm' : 'border-slate-200 hover:border-slate-300'
+                    className={`bg-white dark:bg-slate-900 border rounded-2xl overflow-hidden transition-colors ${
+                      isOpen
+                        ? 'border-blue-600 dark:border-blue-500 shadow-sm'
+                        : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                     }`}
                   >
                     <button
@@ -907,21 +948,21 @@ export default function App() {
                       onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
                       className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 cursor-pointer"
                     >
-                      <span className="text-sm sm:text-base font-bold text-slate-900">
+                      <span className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100">
                         {item.question}
                       </span>
                       <span
                         className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-200 ${
                           isOpen
                             ? 'bg-blue-600 text-white rotate-180'
-                            : 'bg-blue-50 text-blue-600'
+                            : 'bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400'
                         }`}
                       >
                         <i className="fa-solid fa-chevron-down text-xs" />
                       </span>
                     </button>
                     {isOpen && (
-                      <div className="px-6 pb-5 pt-1 text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+                      <div className="px-6 pb-5 pt-1 text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800">
                         {item.answer}
                       </div>
                     )}
@@ -933,9 +974,9 @@ export default function App() {
         </section>
 
         {/* CTA / CONTACT SECTION */}
-        <section id="contact" className="py-20 bg-[#f8fafc] px-4 sm:px-6">
+        <section id="contact" className="py-20 bg-[#f8fafc] dark:bg-slate-950 px-4 sm:px-6 transition-colors duration-200">
           <div className="max-w-[920px] mx-auto">
-            <div className="bg-gradient-to-br from-[#0f172a] to-[#1e3c72] text-white rounded-3xl p-8 sm:p-14 text-center relative overflow-hidden shadow-2xl">
+            <div className="bg-gradient-to-br from-[#0f172a] to-[#1e3c72] text-white rounded-3xl p-8 sm:p-14 text-center relative overflow-hidden shadow-2xl border border-white/10">
               <p className="text-xs font-bold uppercase tracking-widest text-blue-300 mb-3">
                 Get Started Today
               </p>
@@ -1013,7 +1054,7 @@ export default function App() {
       </main>
 
       {/* QUIET FOOTER */}
-      <footer className="bg-[#0f172a] text-slate-400 py-12 px-4 text-center border-t border-slate-800">
+      <footer className="bg-[#0f172a] dark:bg-slate-950 text-slate-400 py-12 px-4 text-center border-t border-slate-800">
         <div className="max-w-[960px] mx-auto">
           <div className="text-xl font-extrabold text-white tracking-tight mb-1">
             FBMPrime
