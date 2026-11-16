@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --primary-blue: #1e3c72;
+    --secondary-blue: #2a5298;
+    --accent-blue: #2563eb;
+    --accent-green: #25D366;
+    --dark-navy: #0f172a;
+    --light-bg: #f8fafc;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  .font-mono-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 3px;
+}
+
+@keyframes gridShift {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(50px); }
+}
+
+@keyframes pulseWa {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
+  70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+@keyframes rotateLaserBeam {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes web3MeshFloat {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(45px, -35px) scale(1.12) rotate(15deg); }
+  100% { transform: translate(-35px, 45px) scale(0.95) rotate(-10deg); }
+}
+
+@keyframes web3ShimmerSweep {
+  0%, 60% { transform: translate(-80%, -80%) rotate(20deg); }
+  100% { transform: translate(60%, 60%) rotate(20deg); }
+}
+
+@keyframes flowLine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.hero-bg {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(37, 99, 235, 0.22) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.14) 0%, transparent 60%),
+    linear-gradient(135deg, #0f172a 0%, #1e3c72 55%, #2a5298 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridShift 20s linear infinite;
+  pointer-events: none;
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: #f8fafc;
+  clip-path: polygon(0 100%, 100% 100%, 100% 0);
+  pointer-events: none;
+}
+
+.preview-cyber-section {
+  background: radial-gradient(circle at 50% 15%, #0f1e3d 0%, #080d1a 60%, #030712 100%);
+  position: relative;
+}
+
+.cyber-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.web3-glow-mesh {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.12) 45%, rgba(16, 185, 129, 0.08) 70%, transparent 80%);
+  filter: blur(60px);
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+  animation: web3MeshFloat 12s ease-in-out infinite alternate;
+}
+
+.web3-beam-wrapper {
+  position: relative;
+  border-radius: 16px;
+  padding: 1.5px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.web3-beam-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -100%;
+  background: conic-gradient(from 0deg, transparent 0 320deg, var(--beam-c1, #60a5fa) 345deg, var(--beam-c2, #38bdf8) 360deg);
+  animation: rotateLaserBeam 4.5s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.web3-beam-wrapper:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 65px -15px rgba(0, 0, 0, 0.9), 0 0 30px rgba(59, 130, 246, 0.32);
+}
+
+.modern-img-frame-inner {
+  position: relative;
+  background: #080d1a;
+  border-radius: 14.5px;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.wf-connector-line {
+  background: linear-gradient(90deg, transparent, #2563eb, #3b82f6, transparent);
+  background-size: 200% auto;
+  animation: flowLine 3s linear infinite;
+}
+
+.btn-wa-pulse {
+  animation: pulseWa 2.5s infinite;
+}
+

@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Automate FB account registration, facebook auto-posting, and unlimited page creation. Manage your Facebook accounts and posts effortlessly with FBMPrime.">
+<title>FBM Prime — Facebook Automation Software | Auto Reg, Profile & Page Creation</title>
+<link rel="icon" type="image/png" href="fbmprimex_icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+:root {
+    --primary-blue: #1e3c72;
+    --secondary-blue: #2a5298;
+    --accent-blue: #2563eb;
+    --accent-green: #25D366;
+    --dark-navy: #0f172a;
+    --light-bg: #f8fafc;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --font: 'Plus Jakarta Sans', sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--light-bg); color: var(--text-dark); overflow-x: hidden; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 3px; }
+
+/* NAVBAR */
+.navbar-fbm {
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    border-bottom: 1px solid var(--border);
+}
+.brand-separator { border-right: 2px solid var(--accent-blue); height: 22px; }
+
+/* HERO */
+.hero-section {
+    background: radial-gradient(circle at 30% 20%, rgba(37,99,235,0.18) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.1) 0%, transparent 60%),
+                linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #fff;
+    padding: 110px 0 130px;
+    position: relative;
+    overflow: hidden;
+}
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridShift 20s linear infinite;
+}
+@keyframes gridShift { 0%{transform:translateY(0)} 100%{transform:translateY(50px)} }
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 50px;
+    background: var(--light-bg);
+    clip-path: polygon(0 100%, 100% 100%, 100% 0);
+}
+.hero-badge {
+    background: rgba(37,211,102,0.15);
+    color: #2ecc71;
+    border: 1px solid rgba(37,211,102,0.3);
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.hero-badge .dot { width:8px;height:8px;background:#2ecc71;border-radius:50%;animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:0.6} }
+.hero-typed-wrap { min-height: 36px; }
+.hero-grad { background: linear-gradient(90deg, #60a5fa, #a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+/* STATS BANNER */
+.stat-banner {
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    margin-top: -55px;
+    position: relative;
+    z-index: 10;
+    border: 1px solid var(--border);
+}
+
+/* FEATURE CARDS */
+.feat-mod-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 20px;
+    padding: 30px 26px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.feat-mod-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--mc, #2563eb);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.feat-mod-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--mc, #2563eb); }
+.feat-mod-card:hover::after { transform: scaleX(1); }
+.feat-mod-card:hover .feat-mod-icon { transform: scale(1.1) rotate(-8deg); background: var(--mc, #2563eb); color: #fff !important; }
+.feat-mod-icon {
+    width: 58px; height: 58px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    transition: all 0.4s ease;
+    background: var(--mc-light, rgba(37,99,235,0.08));
+    color: var(--mc, #2563eb);
+}
+.feat-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.feat-tag {
+    background: rgba(37,99,235,0.07);
+    border: 1px solid rgba(37,99,235,0.15);
+    color: var(--accent-blue);
+    font-size: 11px; font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 30px;
+}
+.badge-hot { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); font-size: 10px; font-weight: 800; padding: 1px 8px; border-radius: 6px; margin-left: 6px; }
+.badge-pro { background: rgba(139,92,246,0.1); color: #8b5cf6; border: 1px solid rgba(139,92,246,0.2); font-size: 10px; font-weight: 800; padding: 1px 8px; border-radius: 6px; margin-left: 6px; }
+.badge-new-c { background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); font-size: 10px; font-weight: 800; padding: 1px 8px; border-radius: 6px; margin-left: 6px; }
+
+/* WORKFLOW STEPS */
+.wf-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 35px 20px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    position: relative;
+}
+.wf-card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(37,99,235,0.1); border-color: var(--accent-blue); }
+.wf-num {
+    width: 65px; height: 65px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 900; color: #fff;
+    margin: 0 auto 20px;
+    box-shadow: 0 10px 20px rgba(37,99,235,0.25);
+    border: 4px solid #fff;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.wf-card:hover .wf-num { transform: scale(1.15) rotate(10deg); }
+.wf-connector {
+    position: absolute;
+    top: 62px; left: 5%; right: 5%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), #8b5cf6, transparent);
+    background-size: 200% auto;
+    animation: flowLine 3s linear infinite;
+    opacity: 0.4;
+    z-index: 0;
+}
+@keyframes flowLine { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+@media (max-width: 767px) { .wf-connector { display: none; } }
+
+/* PRICING CARDS */
+.price-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 28px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    height: 100%;
+}
+.price-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(37,99,235,0.1); border-color: var(--accent-blue); }
+.price-card.popular { border-color: var(--accent-blue); border-width: 2px; background: linear-gradient(180deg, #fff 0%, #eff6ff 100%); }
+.popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue)); color: #fff; font-size: 12px; font-weight: 800; padding: 5px 20px; border-radius: 20px; white-space: nowrap; box-shadow: 0 4px 15px rgba(37,99,235,0.3); }
+.price-amount-val { font-size: 52px; font-weight: 900; color: var(--text-dark); font-family: 'Space Grotesk', sans-serif; line-height: 1; }
+.price-features li { font-size: 14px; color: var(--text-muted); display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+.price-features li i.check { color: #10b981; flex-shrink: 0; }
+
+/* TESTIMONIALS */
+.testi-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    transition: all 0.35s ease;
+    height: 100%;
+}
+.testi-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.06); border-color: var(--accent-blue); }
+.stars { color: #f59e0b; }
+.testi-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue)); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: #fff; flex-shrink: 0; }
+
+/* SPEC CARDS */
+.spec-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    transition: all 0.35s ease;
+}
+.spec-card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
+.spec-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.spec-row:last-child { border-bottom: none; }
+
+/* FAQ */
+.faq-item {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+.faq-item.open { border-color: var(--accent-blue); }
+.faq-q { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 20px; }
+.faq-q span { font-size: 15px; font-weight: 700; color: var(--text-dark); }
+.faq-arrow { width: 28px; height: 28px; background: rgba(37,99,235,0.08); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent-blue); flex-shrink: 0; transition: transform 0.25s; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); background: var(--accent-blue); color: #fff; }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.2s ease; padding: 0 24px; }
+.faq-item.open .faq-a { max-height: 300px; padding: 0 24px 20px; }
+.faq-a p { font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+
+/* CTA CONTACT BOX */
+.cta-contact-box {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3c72 100%);
+    color: #fff;
+    border-radius: 24px;
+    padding: 50px 40px;
+    position: relative;
+    overflow: hidden;
+}
+.cta-contact-box::before { content: ''; position: absolute; width: 350px; height: 350px; background: rgba(255,255,255,0.03); border-radius: 50%; top: -100px; right: -100px; }
+
+/* BUTTONS */
+.btn-fbm-primary { background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue)); color: #fff !important; border: none; border-radius: 50px; padding: 14px 32px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 25px rgba(37,99,235,0.3); transition: all 0.3s ease; }
+.btn-fbm-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(37,99,235,0.4); }
+
+.btn-wa-cta { background: #25D366; color: #fff !important; border: none; border-radius: 50px; padding: 14px 32px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 25px rgba(37,211,102,0.35); animation: pulseWa 2.5s infinite; transition: all 0.3s ease; }
+@keyframes pulseWa { 0%{box-shadow:0 0 0 0 rgba(37,211,102,0.6)} 70%{box-shadow:0 0 0 14px rgba(37,211,102,0)} 100%{box-shadow:0 0 0 0 rgba(37,211,102,0)} }
+.btn-wa-cta:hover { background: #1ebe5c; transform: translateY(-2px); }
+
+/* SECTION LABELS */
+.sec-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: var(--accent-blue); text-transform: uppercase; background: rgba(37,99,235,0.07); border: 1px solid rgba(37,99,235,0.2); padding: 5px 16px; border-radius: 30px; margin-bottom: 14px; }
+.sec-line { height: 4px; width: 70px; background: linear-gradient(90deg, var(--primary-blue), #8b5cf6); border-radius: 2px; margin: 16px auto 0; }
+.sec-line.green { background: linear-gradient(90deg, #10b981, #25D366); }
+
+/* FLOATING WA */
+.floating-wa { position: fixed; bottom: 28px; right: 28px; z-index: 9999; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; text-decoration: none; box-shadow: 0 8px 25px rgba(37,211,102,0.4); animation: pulseWa 2.5s infinite; transition: transform 0.3s; }
+.floating-wa:hover { transform: scale(1.15) rotate(-5deg); color: #fff; }
+
+/* BACK TO TOP */
+#btt { position: fixed; bottom: 28px; left: 28px; z-index: 9999; width: 50px; height: 50px; background: var(--primary-blue); color: #fff; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; font-size: 18px; opacity: 0; visibility: hidden; transition: all 0.3s ease; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+#btt.show { opacity: 1; visibility: visible; }
+#btt:hover { transform: translateY(-3px); background: var(--accent-blue); }
+
+/* FOOTER */
+footer { background: var(--dark-navy); color: #94a3b8; padding: 50px 0; text-align: center; }
+footer .foot-logo { font-size: 22px; font-weight: 900; color: #fff; font-family: 'Space Grotesk', sans-serif; margin-bottom: 10px; }
+/* NEXT-GEN WEB 3.0 CYBER SHOWCASE & FRAMES */
+.preview-cyber-section {
+    background: radial-gradient(circle at 50% 15%, #0f1e3d 0%, #080d1a 60%, #030712 100%) !important;
+    position: relative;
+    border: none !important;
+}
+.cyber-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 60%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.web3-glow-mesh {
+    position: absolute;
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.22) 0%, rgba(139, 92, 246, 0.15) 45%, rgba(16, 185, 129, 0.1) 70%, transparent 80%);
+    filter: blur(60px);
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+    animation: web3MeshFloat 12s ease-in-out infinite alternate;
+}
+.web3-mesh-1 { top: -60px; left: -100px; }
+.web3-mesh-2 { bottom: -100px; right: -100px; animation-duration: 15s; animation-direction: alternate-reverse; }
+
+@keyframes web3MeshFloat {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    50% { transform: translate(45px, -35px) scale(1.12) rotate(15deg); }
+    100% { transform: translate(-35px, 45px) scale(0.95) rotate(-10deg); }
+}
+
+/* LASER BORDER BEAM CONTAINER */
+.web3-beam-wrapper {
+    position: relative;
+    border-radius: 16px;
+    padding: 1.5px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.web3-beam-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -100%;
+    background: conic-gradient(from 0deg, transparent 0 320deg, #60a5fa 345deg, #a855f7 360deg);
+    animation: rotateLaserBeam 4s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+@keyframes rotateLaserBeam {
+    100% { transform: rotate(360deg); }
+}
+.web3-beam-wrapper:hover {
+    transform: translateY(-6px) scale(1.008);
+    box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.9), 0 0 35px rgba(59, 130, 246, 0.4);
+}
+
+
+
+/* SLEEK APP & VIDEO FRAMES */
+.video-browser-window, .modern-img-frame-inner {
+    position: relative;
+    background: #080d1a;
+    border-radius: 14.5px;
+    overflow: hidden;
+    z-index: 2;
+}
+.video-window-header, .modern-img-frame-header {
+    background: rgba(15, 23, 42, 0.9);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    min-height: 32px;
+}
+.window-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.window-dot {
+    width: 7.5px;
+    height: 7.5px;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.85;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.window-dots:hover .window-dot { opacity: 1; transform: scale(1.15); }
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #eab308; }
+.dot-green { background: #22c55e; }
+
+.modern-img-frame-title, .video-window-title {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.pulse-record-dot {
+    width: 6px;
+    height: 6px;
+    background: #ef4444;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.9);
+    animation: blinkRecord 1.5s infinite;
+}
+@keyframes blinkRecord {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(1.3); }
+}
+
+/* SHIMMER LIGHT BEAM */
+.modern-img-frame-inner::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(
+        115deg,
+        transparent 35%,
+        rgba(255, 255, 255, 0.04) 45%,
+        rgba(96, 165, 250, 0.12) 50%,
+        rgba(255, 255, 255, 0.04) 55%,
+        transparent 65%
+    );
+    transform: rotate(20deg);
+    pointer-events: none;
+    animation: web3ShimmerSweep 8s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes web3ShimmerSweep {
+    0%, 60% { transform: translate(-80%, -80%) rotate(20deg); }
+    100% { transform: translate(60%, 60%) rotate(20deg); }
+}
+
+.modern-img-frame-inner img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: none !important;
+    transition: transform 0.5s ease;
+}
+.web3-beam-wrapper:hover .modern-img-frame-inner img {
+    transform: scale(1.006);
+}
+
+.video-frame-inner {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: 70.2646%;
+    overflow: hidden;
+    background: #000;
+}
+.video-frame-inner iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.video-footer-bar {
+    background: #060a14;
+    padding: 9px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.video-pill-badge {
+    background: rgba(37, 99, 235, 0.14);
+    color: #93c5fd;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+.video-pill-badge:hover {
+    background: rgba(37, 99, 235, 0.3);
+    color: #fff;
+    border-color: rgba(96, 165, 250, 0.6);
+}
+.web3-status-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: #94a3b8;
+    font-weight: 500;
+}
+.web3-live-indicator {
+    width: 5px;
+    height: 5px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #10b981;
+    display: inline-block;
+    animation: blinkRecord 2s infinite;
+}
+
+/* FLOATING HUD BADGES */
+.hud-pills-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.8rem;
+    margin-bottom: 2.5rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.hud-pills-row::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+.hud-pill {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.3s ease;
+}
+.hud-pill:hover {
+    border-color: rgba(96, 165, 250, 0.4);
+    background: rgba(30, 41, 59, 0.8);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+@keyframes float-blob { 0%{transform:translate(0,0) scale(1)} 33%{transform:translate(20px,-40px) scale(1.1)} 66%{transform:translate(-20px,20px) scale(0.9)} 100%{transform:translate(0,0) scale(1)} }
+
+    /* --- MOBILE RESPONSIVE OVERRIDES --- */
+    html, body {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+    }
+    @media (max-width: 991px) {
+        .custom-cursor { display: none !important; }
+        body, a, button, .faq-q, .ptab, .feat-card, .price-card { cursor: auto !important; }
+        section { padding: 45px 0 !important; }
+    }
+    @media (max-width: 767px) {
+        section { padding: 35px 0 !important; }
+        
+        /* Hero Refinements */
+        .hero-section { padding: 75px 0 65px !important; }
+        .hero-section h1 { font-size: 1.85rem !important; line-height: 1.25 !important; letter-spacing: -0.5px !important; }
+        .hero-section p { font-size: 14.5px !important; line-height: 1.6 !important; margin-bottom: 22px !important; }
+        .hero-badge { font-size: 11px !important; padding: 4px 12px !important; }
+        .btn-fbm-primary { font-size: 14px !important; padding: 12px 22px !important; }
+        
+        /* Headings & Badges */
+        .display-6 { font-size: 1.55rem !important; line-height: 1.3 !important; }
+        .sec-badge { font-size: 11px !important; padding: 4px 12px !important; }
+        
+        /* ===== CYBER PREVIEW SECTION MOBILE ===== */
+        .preview-cyber-section {
+            padding: 40px 0 !important;
+        }
+        /* Disable heavy laser beam animation on mobile (saves GPU) */
+        .web3-beam-wrapper::before {
+            animation-duration: 6s !important;
+        }
+        /* Disable mesh orbs clip overflow on small screens */
+        .web3-glow-mesh {
+            width: 300px !important;
+            height: 300px !important;
+            filter: blur(40px) !important;
+        }
+        .cyber-grid-overlay {
+            background-size: 22px 22px !important;
+        }
+
+        /* Beam wrappers */
+        .web3-beam-wrapper {
+            border-radius: 10px !important;
+            padding: 1px !important;
+            margin-bottom: 1.2rem !important;
+        }
+        .modern-img-frame-inner {
+            border-radius: 9.5px !important;
+        }
+        .modern-img-frame-header, .video-window-header {
+            padding: 6px 10px !important;
+            min-height: 27px !important;
+        }
+        .window-dots { gap: 4px !important; }
+        .window-dot { width: 6px !important; height: 6px !important; }
+        .modern-img-frame-title, .video-window-title {
+            font-size: 9.5px !important;
+            max-width: 72% !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+        .web3-status-tag { font-size: 9px !important; }
+        .web3-live-indicator { width: 4px !important; height: 4px !important; }
+
+        /* HUD pills — stack neatly on mobile */
+        .hud-pills-row {
+            gap: 8px !important;
+            margin-top: 1rem !important;
+            margin-bottom: 1.8rem !important;
+            justify-content: flex-start !important;
+            overflow-x: auto !important;
+            flex-wrap: nowrap !important;
+            padding-bottom: 4px !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+        .hud-pills-row::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+        .hud-pill {
+            font-size: 10.5px !important;
+            padding: 5px 11px !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* VIDEO SHOWCASE — MOBILE FIRST */
+        .video-frame-inner {
+            padding-top: 70.2646% !important;
+        }
+        .video-footer-bar {
+            padding: 7px 10px !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+        }
+        .video-pill-badge {
+            font-size: 9px !important;
+            padding: 2px 7px !important;
+        }
+
+        /* Modern App Windows */
+        .modern-img-frame, .video-browser-window {
+            border-radius: 10px !important;
+            margin-bottom: 1.2rem !important;
+        }
+
+        /* Pricing Cards */
+        .price-card {
+            padding: 24px 18px !important;
+            border-radius: 16px !important;
+        }
+        .price-amount-val { font-size: 38px !important; }
+        .popular-badge {
+            font-size: 10px !important;
+            padding: 3px 12px !important;
+            top: -11px !important;
+        }
+
+        /* Feature Cards */
+        .feat-mod-card {
+            padding: 20px 16px !important;
+            border-radius: 16px !important;
+        }
+        .feat-mod-icon {
+            width: 46px !important;
+            height: 46px !important;
+            font-size: 18px !important;
+            border-radius: 10px !important;
+        }
+
+        /* Workflow Cards */
+        .wf-card { padding: 22px 14px !important; border-radius: 16px !important; }
+        .wf-num { width: 48px !important; height: 48px !important; font-size: 18px !important; margin-bottom: 12px !important; }
+
+        .stat-banner { margin-top: 20px !important; padding: 20px 15px !important; }
+        .floating-wa { width: 50px !important; height: 50px !important; font-size: 26px !important; bottom: 16px !important; right: 16px !important; }
+        #btt { width: 40px !important; height: 40px !important; font-size: 16px !important; bottom: 16px !important; left: 16px !important; }
+        .hero-stats { gap: 12px !important; }
+    }
+
+    @media (max-width: 576px) {
+        .spec-row { flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; padding: 8px 0 !important; }
+        .spec-val { margin-left: 0 !important; text-align: left !important; }
+        /* Section header text on xs phones */
+        .preview-cyber-section h2 { font-size: 1.35rem !important; }
+        .preview-cyber-section p { font-size: 12.5px !important; }
+        /* Keep laser beam ON but slower — still looks great on phones */
+        .web3-beam-wrapper::before {
+            animation: rotateLaserBeam 5s linear infinite !important;
+            background: conic-gradient(from 0deg, transparent 0 310deg, #60a5fa 340deg, #a855f7 360deg) !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-section h1 { font-size: 1.65rem !important; }
+        .modern-img-frame-title, .video-window-title { font-size: 9px !important; max-width: 60% !important; }
+        .video-frame-inner { padding-top: 70.2646% !important; }
+        .hud-pills-row { gap: 6px !important; }
+        .hud-pill { font-size: 10px !important; padding: 4px 10px !important; }
+        /* Keep laser beam visible on smallest phones too */
+        .web3-beam-wrapper::before {
+            animation: rotateLaserBeam 6s linear infinite !important;
+        }
+        /* Fully contain video glow on tiny screens */
+        .video-glow-backdrop {
+            display: none !important;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/923241703901?text=Hi!+I+want+to+know+more+about+FBM+Prime" class="floating-wa" target="_blank" rel="noopener noreferrer" title="Chat with Support"><i class="fa-brands fa-whatsapp"></i></a>
+
+<!-- BACK TO TOP -->
+<button id="btt" title="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-fbm sticky-top py-3">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <span class="fw-extrabold text-primary fs-5 border-end border-2 pe-2 me-1" style="border-color:#2563eb!important;letter-spacing:0.5px;">FBMPrime</span>
+            <span class="fw-bold text-dark d-inline" style="font-size: clamp(10px, 2.8vw, 14px);">Facebook Automation Software</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navMain">
+            <ul class="navbar-nav mx-auto align-items-center gap-1">
+                <li class="nav-item"><a class="nav-link fw-semibold small" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold small" href="#workflow">How It Works</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold small" href="#pricing">Pricing</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold small" href="#faq">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold small" href="demo/" style="color:#2563eb;"><i class="fa-solid fa-play-circle me-1"></i>Demo</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-2">
+                <a href="/" class="btn btn-outline-secondary btn-sm fw-bold rounded-pill px-3">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Portfolio
+                </a>
+                <a href="#pricing" class="btn-fbm-primary py-2 px-4 rounded-pill fs-6">
+                    <i class="fa-solid fa-bolt"></i> Buy Now
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero-section text-center position-relative">
+    <div class="container position-relative" style="z-index:2;">
+        <span class="hero-badge mb-4 d-inline-flex">
+            <span class="dot"></span>
+            LIVE SOFTWARE &mdash; 500+ Active Users Worldwide
+        </span>
+        <h1 class="fw-extrabold text-white mb-3" style="font-size: clamp(36px,6vw,70px); letter-spacing: -2px; line-height: 1.1;">
+            Facebook Automation<br>
+            Like You've <span class="hero-grad" id="typewriter">Never Seen Before</span><span style="border-right:3px solid #60a5fa;animation:pulse 0.7s step-end infinite;"></span>
+        </h1>
+        <p class="text-light mb-5 mx-auto" style="max-width:680px; font-size:18px; opacity:0.9; line-height:1.7;">
+            FBM Prime is a professional, fully undetectable Facebook automation tool. Auto Registration, Smart Profile Builder, Page Creation, and Active Interaction — all in one powerful desktop software.
+        </p>
+        <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+            <a href="https://github.com/mrtechpk1-ai/FBMprime/releases/download/v1.4.8/FBM_Prime_Reg_Setup_v1.4.8.exe" class="btn-fbm-primary fs-5 px-5 py-3" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-download me-2"></i> Download FBMPrime Reg
+            </a>
+            <a href="#features" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-semibold">
+                <i class="fa-solid fa-play-circle me-1"></i> Explore Features
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- STATS BANNER -->
+<div class="container">
+    <div class="stat-banner">
+        <div class="row g-4 text-center">
+            <div class="col-md" data-aos="fade-up" data-aos-delay="100">
+                <h3 class="fw-extrabold text-primary mb-1">500+</h3>
+                <p class="text-muted small m-0 fw-semibold"><i class="fa-solid fa-users me-1 text-primary"></i> Active Users</p>
+            </div>
+            <div class="col-md" data-aos="fade-up" data-aos-delay="200">
+                <h3 class="fw-extrabold text-success mb-1">10K+</h3>
+                <p class="text-muted small m-0 fw-semibold"><i class="fa-solid fa-user-plus me-1 text-success"></i> Accounts Created</p>
+            </div>
+            <div class="col-md" data-aos="fade-up" data-aos-delay="300">
+                <h3 class="fw-extrabold text-warning mb-1">5</h3>
+                <p class="text-muted small m-0 fw-semibold"><i class="fa-solid fa-cubes me-1 text-warning"></i> Powerful Modules</p>
+            </div>
+            <div class="col-md" data-aos="fade-up" data-aos-delay="400">
+                <h3 class="fw-extrabold text-info mb-1">24/7</h3>
+                <p class="text-muted small m-0 fw-semibold"><i class="fa-solid fa-clock me-1 text-info"></i> Automation Capable</p>
+            </div>
+            <div class="col-md" data-aos="fade-up" data-aos-delay="500">
+                <h3 class="fw-extrabold text-danger mb-1">100%</h3>
+                <p class="text-muted small m-0 fw-semibold"><i class="fa-solid fa-shield-check me-1 text-danger"></i> Undetectable</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DASHBOARD PREVIEW - NEXT-GEN CYBER DARK -->
+<section class="preview-cyber-section py-5 position-relative overflow-hidden" data-aos="zoom-in" data-aos-duration="1000">
+    <!-- Cyber Grid BG -->
+    <div class="cyber-grid-overlay"></div>
+    <!-- Ambient Glow Orbs -->
+    <div class="web3-glow-mesh web3-mesh-1"></div>
+    <div class="web3-glow-mesh web3-mesh-2"></div>
+
+    <div class="container position-relative" style="max-width:1100px; z-index:3;">
+        <!-- Section Header -->
+        <div class="text-center mb-5">
+            <span class="sec-badge mb-2 d-inline-block" style="background:rgba(59,130,246,0.12); color:#93c5fd; border:1px solid rgba(59,130,246,0.3);">
+                <i class="fa-solid fa-desktop me-1"></i> Live Interface &amp; Demo
+            </span>
+            <h2 class="fw-extrabold mt-1 mb-2" style="font-size:clamp(1.6rem,4vw,2.4rem); letter-spacing:-0.5px; color:#f1f5f9;">
+                Desktop Application &amp; <span style="background:linear-gradient(90deg,#60a5fa,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Multi-Browser Grid</span>
+            </h2>
+            <p class="mb-0" style="color:#64748b; font-size:14px;">Real-time automation running inside isolated browser sessions</p>
+        </div>
+
+        <div class="position-relative mt-2">
+
+            <!-- TOP DASHBOARD — LASER BEAM FRAME -->
+            <div class="web3-beam-wrapper" data-aos="fade-up">
+                <div class="modern-img-frame-inner">
+                    <div class="modern-img-frame-header">
+                        <div class="window-dots">
+                            <span class="window-dot dot-red"></span>
+                            <span class="window-dot dot-yellow"></span>
+                            <span class="window-dot dot-green"></span>
+                        </div>
+                        <div class="modern-img-frame-title">
+                            <span>FBM Prime &bull; Main Control Dashboard</span>
+                        </div>
+                        <span class="web3-status-tag"><span class="web3-live-indicator"></span> v3.0 Active</span>
+                    </div>
+                    <picture>
+                        <source srcset="dashboard_top.webp" type="image/webp">
+                        <img src="dashboard_top.webp" alt="FBM Prime Dashboard - Top" class="w-100" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+            </div>
+
+            <!-- BOTTOM DASHBOARD — LASER BEAM FRAME -->
+            <div class="web3-beam-wrapper" data-aos="fade-up" data-aos-delay="100" style="--beam-color1:#a78bfa; --beam-color2:#34d399;">
+                <div class="modern-img-frame-inner">
+                    <div class="modern-img-frame-header">
+                        <div class="window-dots">
+                            <span class="window-dot dot-red"></span>
+                            <span class="window-dot dot-yellow"></span>
+                            <span class="window-dot dot-green"></span>
+                        </div>
+                        <div class="modern-img-frame-title">
+                            <span>FBM Prime &bull; Automation Settings &amp; Task Queues</span>
+                        </div>
+                        <span class="web3-status-tag"><span class="web3-live-indicator" style="background:#3b82f6; box-shadow:0 0 6px #3b82f6;"></span> Queue Ready</span>
+                    </div>
+                    <picture>
+                        <source srcset="dashboard_bottom.webp" type="image/webp">
+                        <img src="dashboard_bottom.webp" alt="FBM Prime Dashboard - Bottom" class="w-100" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+            </div>
+
+            <!-- BROWSER CONTAINER — LASER BEAM FRAME -->
+            <div class="web3-beam-wrapper" data-aos="fade-up" data-aos-delay="150" style="--beam-color1:#10b981; --beam-color2:#06b6d4;">
+                <div class="modern-img-frame-inner">
+                    <div class="modern-img-frame-header">
+                        <div class="window-dots">
+                            <span class="window-dot dot-red"></span>
+                            <span class="window-dot dot-yellow"></span>
+                            <span class="window-dot dot-green"></span>
+                        </div>
+                        <div class="modern-img-frame-title">
+                            <span>FBM Prime &bull; Isolated Multi-Browser Grid (Anti-Detect Proxy)</span>
+                        </div>
+                        <span class="web3-status-tag"><span class="web3-live-indicator" style="background:#10b981; box-shadow:0 0 6px #10b981;"></span> Proxy Grid</span>
+                    </div>
+                    <picture>
+                        <source srcset="browsercontainer.webp" type="image/webp">
+                        <img src="browsercontainer.webp" alt="FBM Prime Multi-Browser Container" class="w-100" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+            </div>
+
+            <!-- HUD INFO PILLS -->
+            <div class="hud-pills-row" data-aos="fade-up" data-aos-delay="180">
+                <span class="hud-pill"><i class="fa-solid fa-microchip text-blue-400" style="color:#60a5fa;"></i> Multi-Thread Engine</span>
+                <span class="hud-pill"><i class="fa-solid fa-shield-halved" style="color:#34d399;"></i> Fingerprint Masking</span>
+                <span class="hud-pill"><i class="fa-solid fa-network-wired" style="color:#a78bfa;"></i> Per-Account Proxy</span>
+                <span class="hud-pill"><i class="fa-solid fa-bolt" style="color:#fbbf24;"></i> Zero Downtime Automation</span>
+            </div>
+
+            <!-- VIDEO SHOWCASE — LASER BEAM WRAPPER -->
+            <div class="web3-beam-wrapper" data-aos="fade-up" data-aos-delay="220" style="--beam-color1:#ef4444; --beam-color2:#3b82f6;">
+                <div class="modern-img-frame-inner">
+                    <div class="video-window-header">
+                        <div class="window-dots">
+                            <span class="window-dot dot-red"></span>
+                            <span class="window-dot dot-yellow"></span>
+                            <span class="window-dot dot-green"></span>
+                        </div>
+                        <div class="video-window-title">
+                            <span class="pulse-record-dot"></span>
+                            <span>FBM Prime &bull; Official Feature Walkthrough</span>
+                        </div>
+                        <span class="web3-status-tag"><span class="web3-live-indicator" style="background:#ef4444; box-shadow:0 0 6px #ef4444;"></span> Live Demo</span>
+                    </div>
+
+                    <div class="video-frame-inner">
+                        <iframe loading="lazy" src="https://www.canva.com/design/DAHVzYcunow/0Qr5ioDLceoJHbW-iDSNHg/watch?embed" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" title="FBM Prime Demo Video"></iframe>
+                    </div>
+
+                    <div class="video-footer-bar">
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <span class="video-pill-badge"><i class="fa-solid fa-bolt text-warning me-1"></i> Auto Reg Live</span>
+                            <span class="video-pill-badge"><i class="fa-solid fa-user-check text-success me-1"></i> Profile Setup</span>
+                            <span class="video-pill-badge"><i class="fa-solid fa-shield-halved text-info me-1"></i> Anti-Detect</span>
+                        </div>
+                        <div class="small" style="color:#64748b; font-size:11px;">
+                            Created by <strong style="color:#e2e8f0;">Muhammad Ahmed Ali</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="py-5 position-relative overflow-hidden" style="background: #f8fafc;">
+    <div class="position-absolute rounded-circle" style="width:500px;height:500px;background:radial-gradient(circle,rgba(37,99,235,0.04) 0%,transparent 70%);top:-100px;left:-150px;animation:float-blob 10s ease-in-out infinite;"></div>
+    <div class="container position-relative" style="z-index:2; max-width:1200px;">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="sec-badge">Core Modules</span>
+            <h2 class="fw-extrabold text-dark display-6 mb-2">One Tool. Every Need Covered.</h2>
+            <div class="sec-line mx-auto"></div>
+            <p class="text-muted mt-3 mx-auto" style="max-width:600px;">Automate the complete Facebook account lifecycle — from registration all the way to page creation.</p>
+        </div>
+        <div class="row g-4">
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="feat-mod-card" style="--mc:#ef4444;--mc-light:rgba(239,68,68,0.08);">
+                    <div class="feat-mod-icon"><i class="fa-solid fa-user-plus"></i></div>
+                    <h5 class="fw-extrabold text-dark mb-1">Full Verify Registration <span class="badge-hot">HOT</span></h5>
+                    <p class="text-muted small" style="line-height:1.7;">Generate authentic, phone-verified accounts instantly. Handles everything from global OTP extraction to automatic cookie acceptance without lifting a finger.</p>
+                    <div class="feat-tags"><span class="feat-tag">Phone OTP</span><span class="feat-tag">Auto Cookie</span><span class="feat-tag">Multi-Country</span><span class="feat-tag">Post-Reg Setup</span></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="feat-mod-card" style="--mc:#2563eb;--mc-light:rgba(37,99,235,0.08);">
+                    <div class="feat-mod-icon" style="--mc:#2563eb;--mc-light:rgba(37,99,235,0.08);"><i class="fa-solid fa-user-shield"></i></div>
+                    <h5 class="fw-extrabold text-dark mb-1">No Verify Registration</h5>
+                    <p class="text-muted small" style="line-height:1.7;">Scale your campaigns instantly. Create high-volume accounts rapidly using email or custom data without needing phone verification.</p>
+                    <div class="feat-tags"><span class="feat-tag">Email Based</span><span class="feat-tag">High Volume</span><span class="feat-tag">Custom Data</span><span class="feat-tag">Fast Speed</span></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="feat-mod-card" style="--mc:#8b5cf6;--mc-light:rgba(139,92,246,0.08);">
+                    <div class="feat-mod-icon" style="--mc:#8b5cf6;--mc-light:rgba(139,92,246,0.08);"><i class="fa-solid fa-images"></i></div>
+                    <h5 class="fw-extrabold text-dark mb-1">Smart Profile Builder <span class="badge-pro">PRO</span></h5>
+                    <p class="text-muted small" style="line-height:1.7;">Make every account look 100% human. Automatically sets avatars, cover photos, bios, relationships, and education details in seconds.</p>
+                    <div class="feat-tags"><span class="feat-tag">Avatar Upload</span><span class="feat-tag">Cover Photo</span><span class="feat-tag">Bio & City</span><span class="feat-tag">Education</span></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="150">
+                <div class="feat-mod-card" style="--mc:#10b981;--mc-light:rgba(16,185,129,0.08);">
+                    <div class="feat-mod-icon" style="--mc:#10b981;--mc-light:rgba(16,185,129,0.08);"><i class="fa-brands fa-facebook"></i></div>
+                    <h5 class="fw-extrabold text-dark mb-1">Page Creation Automation <span class="badge-new-c">NEW</span></h5>
+                    <p class="text-muted small" style="line-height:1.7;">Launch business pages on autopilot. Fills names, categories, and bios across multiple accounts simultaneously via stealth desktop mode.</p>
+                    <div class="feat-tags"><span class="feat-tag">Desktop Mode</span><span class="feat-tag">Custom Names</span><span class="feat-tag">Auto-Select</span><span class="feat-tag">Bulk Pages</span></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="250">
+                <div class="feat-mod-card" style="--mc:#f59e0b;--mc-light:rgba(245,158,11,0.08);">
+                    <div class="feat-mod-icon" style="--mc:#f59e0b;--mc-light:rgba(245,158,11,0.08);"><i class="fa-solid fa-hand-pointer"></i></div>
+                    <h5 class="fw-extrabold text-dark mb-1">Active Interaction Mode</h5>
+                    <p class="text-muted small" style="line-height:1.7;">Warm up accounts seamlessly. Drives organic engagement through automated reactions, comments, and feed scrolling with smart cookie fallback.</p>
+                    <div class="feat-tags"><span class="feat-tag">Auto React</span><span class="feat-tag">Cookie Login</span><span class="feat-tag">Smart Fallback</span><span class="feat-tag">Live Status</span></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="350">
+                <div class="feat-mod-card" style="--mc:#6366f1;--mc-light:rgba(99,102,241,0.08);">
+                    <div class="feat-mod-icon" style="--mc:#6366f1;--mc-light:rgba(99,102,241,0.08);"><i class="fa-solid fa-network-wired"></i></div>
+                    <h5 class="fw-extrabold text-dark mb-1">Proxy & Multi-Window System</h5>
+                    <p class="text-muted small" style="line-height:1.7;">Run multiple isolated browser windows concurrently. Assign dedicated HTTP/SOCKS5 proxies to each account in an organized grid layout.</p>
+                    <div class="feat-tags"><span class="feat-tag">HTTP/SOCKS5</span><span class="feat-tag">Per-Account</span><span class="feat-tag">5–20 Windows</span><span class="feat-tag">Grid Arrange</span></div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="feat-mod-card" style="--mc:#ec4899;--mc-light:rgba(236,72,153,0.08);">
+                    <div class="feat-mod-icon" style="--mc:#ec4899;--mc-light:rgba(236,72,153,0.08);"><i class="fa-solid fa-file-excel"></i></div>
+                    <h5 class="fw-extrabold text-dark mb-1">Bulk Import — CSV, TXT, Excel</h5>
+                    <p class="text-muted small" style="line-height:1.7;">Import your entire database in one click. Fully supports CSV, TXT, and Excel formats along with cookie column integration.</p>
+                    <div class="feat-tags"><span class="feat-tag">CSV / TXT</span><span class="feat-tag">Excel .xlsx</span><span class="feat-tag">Cookie Column</span><span class="feat-tag">One-Click</span></div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12" data-aos="fade-up" data-aos-delay="200">
+                <div class="feat-mod-card" style="--mc:#14b8a6;--mc-light:rgba(20,184,166,0.08);">
+                    <div class="feat-mod-icon" style="--mc:#14b8a6;--mc-light:rgba(20,184,166,0.08);"><i class="fa-solid fa-chart-bar"></i></div>
+                    <h5 class="fw-extrabold text-dark mb-1">Live Results Dashboard</h5>
+                    <p class="text-muted small" style="line-height:1.7;">Track every move in real time. Monitor step-by-step progress visually, review detailed logs, and export finished accounts to CSV instantly.</p>
+                    <div class="feat-tags"><span class="feat-tag">Real-Time</span><span class="feat-tag">Step Indicators</span><span class="feat-tag">CSV Export</span><span class="feat-tag">Log Viewer</span></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="workflow" class="py-5 bg-white border-top border-bottom" data-aos="fade-up">
+    <div class="container" style="max-width:1100px;">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="sec-badge">Workflow</span>
+            <h2 class="fw-extrabold text-dark display-6 mb-2">How Does It Work?</h2>
+            <div class="sec-line mx-auto"></div>
+            <p class="text-muted mt-3">Get your full automation pipeline running in just 4 simple steps.</p>
+        </div>
+        <div class="position-relative">
+            <div class="wf-connector d-none d-md-block"></div>
+            <div class="row g-4">
+                <div class="col-md-3" data-aos="zoom-in" data-aos-delay="100"><div class="wf-card"><div class="wf-num">1</div><h5 class="fw-bold text-dark mb-2">Configure</h5><p class="text-muted small" style="line-height:1.7;">Choose your module, add proxies, and configure settings for your campaign.</p></div></div>
+                <div class="col-md-3" data-aos="zoom-in" data-aos-delay="200"><div class="wf-card"><div class="wf-num">2</div><h5 class="fw-bold text-dark mb-2">Import & Setup</h5><p class="text-muted small" style="line-height:1.7;">Import your number list, account list, or Excel file. Configure profile photos and page names.</p></div></div>
+                <div class="col-md-3" data-aos="zoom-in" data-aos-delay="300"><div class="wf-card"><div class="wf-num">3</div><h5 class="fw-bold text-dark mb-2">Start Automation</h5><p class="text-muted small" style="line-height:1.7;">Hit Start — multiple real Chrome browsers open automatically and begin working in the background.</p></div></div>
+                <div class="col-md-3" data-aos="zoom-in" data-aos-delay="400"><div class="wf-card"><div class="wf-num"><i class="fa-solid fa-chart-line fs-5"></i></div><h5 class="fw-bold text-dark mb-2">Monitor & Export</h5><p class="text-muted small" style="line-height:1.7;">Watch live results in the dashboard. Export completed account data to CSV and use immediately.</p></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="py-5" style="background:#f8fafc;" data-aos="fade-up">
+    <div class="container" style="max-width:1100px;">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="sec-badge">Testimonials</span>
+            <h2 class="fw-extrabold text-dark display-6 mb-2">What Our Users Say</h2>
+            <div class="sec-line mx-auto"></div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="testi-card"><div class="stars mb-3">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="text-muted small fst-italic mb-4" style="line-height:1.8;">"FBM Prime completely changed my Facebook marketing workflow. I used to manually create 5 accounts a day — now I run 50+ overnight without a single issue."</p><div class="d-flex align-items-center gap-3"><div class="testi-avatar">A</div><div><div class="fw-bold text-dark small">Ahmed R.</div><div class="text-muted" style="font-size:12px;">Digital Marketer, Lahore</div></div></div></div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="testi-card"><div class="stars mb-3">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="text-muted small fst-italic mb-4" style="line-height:1.8;">"The Profile Builder is excellent — accounts look genuinely human. The Active Interaction module does a great job warming them up. Highly recommended."</p><div class="d-flex align-items-center gap-3"><div class="testi-avatar">Z</div><div><div class="fw-bold text-dark small">Zaheer K.</div><div class="text-muted" style="font-size:12px;">SMM Agency Owner, Karachi</div></div></div></div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="testi-card"><div class="stars mb-3">&#9733;&#9733;&#9733;&#9733;&#9734;</div><p class="text-muted small fst-italic mb-4" style="line-height:1.8;">"The proxy integration and multi-window system are top-notch. I run 10 windows simultaneously and everything is smooth. Support is also very quick to respond."</p><div class="d-flex align-items-center gap-3"><div class="testi-avatar">U</div><div><div class="fw-bold text-dark small">Usman M.</div><div class="text-muted" style="font-size:12px;">FB Account Seller, Islamabad</div></div></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PC REQUIREMENTS -->
+<section id="specs" class="py-5 bg-white border-top border-bottom" data-aos="fade-up">
+    <div class="container" style="max-width:1000px;">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="sec-badge">System Requirements</span>
+            <h2 class="fw-extrabold text-dark display-6 mb-2">How Powerful Does Your PC Need to Be?</h2>
+            <div class="sec-line mx-auto"></div>
+            <p class="text-muted mt-3">FBM Prime runs real Chrome browsers via Playwright, so a decent PC is required. Windows OS is mandatory.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6" data-aos="fade-right">
+                <div class="spec-card"><h6 class="fw-bold text-primary mb-4 text-uppercase" style="letter-spacing:1px;"><i class="fa-solid fa-microchip me-2"></i>Minimum Requirements</h6>
+                <div class="spec-row"><span class="text-muted">Operating System</span><span class="fw-bold text-success small">Windows 10 (64-bit)</span></div>
+                <div class="spec-row"><span class="text-muted">Processor</span><span class="fw-semibold small">Intel Core i3 / AMD Ryzen 3</span></div>
+                <div class="spec-row"><span class="text-muted">Memory (RAM)</span><span class="fw-semibold small">8 GB</span></div>
+                <div class="spec-row"><span class="text-muted">Storage</span><span class="fw-semibold small">200 MB available</span></div>
+                <div class="spec-row"><span class="text-muted">Internet</span><span class="fw-semibold small">Stable broadband</span></div>
+                </div>
+            </div>
+            <div class="col-md-6" data-aos="fade-left">
+                <div class="spec-card" style="border-color:var(--accent-blue);border-width:2px;"><h6 class="fw-bold text-primary mb-4 text-uppercase" style="letter-spacing:1px;"><i class="fa-solid fa-rocket me-2"></i>Recommended Requirements</h6>
+                <div class="spec-row"><span class="text-muted">Operating System</span><span class="fw-bold text-success small">Windows 11 (64-bit)</span></div>
+                <div class="spec-row"><span class="text-muted">Processor</span><span class="fw-semibold small">Intel Core i5 / AMD Ryzen 5</span></div>
+                <div class="spec-row"><span class="text-muted">Memory (RAM)</span><span class="fw-semibold small">12 GB</span></div>
+                <div class="spec-row"><span class="text-muted">Storage</span><span class="fw-semibold small">1 GB available</span></div>
+                <div class="spec-row"><span class="text-muted">Internet</span><span class="fw-semibold small">High-speed broadband</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="py-5" style="background:#f8fafc;" data-aos="fade-up">
+    <div class="container" style="max-width:1100px;">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="sec-badge">Pricing</span>
+            <h2 class="fw-extrabold text-dark display-6 mb-2">One Premium Plan. Flexible Durations.</h2>
+            <div class="sec-line mx-auto"></div>
+            <p class="text-muted mt-3">All features are unlocked in every plan. Just choose how long you want to automate.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="price-card"><div class="fw-bold text-muted small mb-2">1 Month License</div><div class="d-flex align-items-end gap-1 mb-1"><span class="text-muted fw-bold" style="font-size:20px;margin-bottom:6px;">$</span><span class="price-amount-val">10</span><span class="text-muted">.00</span></div><div class="text-muted small mb-4">$10.00/mo &bull; Full Access</div><ul class="price-features list-unstyled mb-4"><li><i class="fa-solid fa-check check"></i> Full Verify Registration</li><li><i class="fa-solid fa-check check"></i> No Verify Registration</li><li><i class="fa-solid fa-check check"></i> Smart Profile Builder</li><li><i class="fa-solid fa-check check"></i> Page Creation</li><li><i class="fa-solid fa-check check"></i> Active Interaction Mode</li><li><i class="fa-solid fa-check check"></i> Multi-Window System</li><li><i class="fa-solid fa-check check"></i> Premium Support</li></ul><a href="https://wa.me/923241703901?text=Hi!+I+want+to+purchase+FBM+Prime+1+Month" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary w-100 fw-bold rounded-3 py-2">Get 1 Month</a></div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="price-card popular"><div class="popular-badge">&#11088; POPULAR</div><div class="fw-bold text-muted small mb-2 mt-3">3 Month License</div><div class="d-flex align-items-end gap-1 mb-1"><span class="text-muted fw-bold" style="font-size:20px;margin-bottom:6px;">$</span><span class="price-amount-val text-primary">24</span><span class="text-muted">.99</span></div><div class="text-muted small mb-1">$8.33/mo &bull; Full Access</div><span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 small mb-3 d-inline-block">Save 17%</span><ul class="price-features list-unstyled mb-4"><li><i class="fa-solid fa-check check"></i> All Features Included</li><li><i class="fa-solid fa-check check"></i> Full Verify Registration</li><li><i class="fa-solid fa-check check"></i> Smart Profile Builder</li><li><i class="fa-solid fa-check check"></i> Page Creation</li><li><i class="fa-solid fa-check check"></i> Active Interaction Mode</li><li><i class="fa-solid fa-check check"></i> Multi-Window System</li><li><i class="fa-solid fa-check check"></i> Premium Support</li></ul><a href="https://wa.me/923241703901?text=Hi!+I+want+to+purchase+FBM+Prime+3+Month" target="_blank" rel="noopener noreferrer" class="btn btn-primary w-100 fw-bold rounded-3 py-2" style="background:linear-gradient(135deg,#1e3c72,#2563eb);border:none;">Get 3 Months</a></div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="price-card"><div class="fw-bold text-muted small mb-2">1 Year License</div><div class="d-flex align-items-end gap-1 mb-1"><span class="text-muted fw-bold" style="font-size:20px;margin-bottom:6px;">$</span><span class="price-amount-val">84</span><span class="text-muted">.99</span></div><div class="text-muted small mb-1">$7.08/mo &bull; Full Access</div><span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 small mb-3 d-inline-block">Save 29%</span><ul class="price-features list-unstyled mb-4"><li><i class="fa-solid fa-check check"></i> All Features Included</li><li><i class="fa-solid fa-check check"></i> Full Verify Registration</li><li><i class="fa-solid fa-check check"></i> Smart Profile Builder</li><li><i class="fa-solid fa-check check"></i> Page Creation</li><li><i class="fa-solid fa-check check"></i> Active Interaction Mode</li><li><i class="fa-solid fa-check check"></i> Multi-Window System</li><li><i class="fa-solid fa-check check"></i> 1 Full Year Priority Support</li></ul><a href="https://wa.me/923241703901?text=Hi!+I+want+to+purchase+FBM+Prime+1+Year" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary w-100 fw-bold rounded-3 py-2">Get 1 Year</a></div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center gap-4 mt-4 flex-wrap text-muted small">
+            <span><i class="fa-solid fa-lock text-primary me-1"></i>256-bit SSL Secure</span>
+            <span><i class="fa-solid fa-shield-alt text-primary me-1"></i>Cloudflare Protected</span>
+            <span><i class="fa-solid fa-check-circle text-success me-1"></i>100% Verified Delivery</span>
+        </div>
+        <p class="text-center text-muted mt-3 small"><i class="fa-solid fa-exclamation-circle text-warning me-1"></i>All sales are <strong class="text-dark">non-refundable</strong>. Setup support provided via WhatsApp after purchase.</p>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-5 bg-white border-top" data-aos="fade-up">
+    <div class="container" style="max-width:820px;">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="sec-badge">FAQ</span>
+            <h2 class="fw-extrabold text-dark display-6 mb-2">Frequently Asked Questions</h2>
+            <div class="sec-line mx-auto"></div>
+        </div>
+        <div id="mainFAQ">
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span>Is FBM Prime safe to use? Will Facebook ban my account?</span><div class="faq-arrow"><i class="fas fa-chevron-down"></i></div></div><div class="faq-a"><p>FBM Prime uses advanced safety protocols, random delays, and human-like interaction patterns. Over 500+ users run it safely. Using quality proxies is still recommended.</p></div></div>
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span>Do you provide customer support?</span><div class="faq-arrow"><i class="fas fa-chevron-down"></i></div></div><div class="faq-a"><p>Absolutely! We offer live WhatsApp support, video tutorials, and a knowledge base. Premium support response time is under 2 hours during business hours.</p></div></div>
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span>What if I'm not tech-savvy? Is it easy to set up?</span><div class="faq-arrow"><i class="fas fa-chevron-down"></i></div></div><div class="faq-a"><p>FBM Prime is designed for everyone — no technical skills required. Our setup wizard guides you step-by-step in under 10 minutes. We also provide free screen-sharing assistance.</p></div></div>
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span>How many accounts can be created per day?</span><div class="faq-arrow"><i class="fas fa-chevron-down"></i></div></div><div class="faq-a"><p>There is no limit. It depends entirely on your PC and internet speed. With a good setup, 1,000+ accounts per day is easily achievable.</p></div></div>
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span>Where do I get phone numbers for registration?</span><div class="faq-arrow"><i class="fas fa-chevron-down"></i></div></div><div class="faq-a"><p>You purchase virtual numbers from SMS providers (e.g., SMS-Man, 5Sim). The tool automatically waits for and enters the OTP.</p></div></div>
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span>Does it work on Mac or Linux?</span><div class="faq-arrow"><i class="fas fa-chevron-down"></i></div></div><div class="faq-a"><p>Currently, FBM Prime officially supports Windows 10/11 (64-bit). For 24/7 operation, we recommend Windows Server 2019/2022 on a VPS.</p></div></div>
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span>Is there a refund policy?</span><div class="faq-arrow"><i class="fas fa-chevron-down"></i></div></div><div class="faq-a"><p>All sales are strictly non-refundable. We provide comprehensive setup support via WhatsApp to ensure you get up and running successfully.</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section id="contact" class="py-5" style="background:#f8fafc;" data-aos="fade-up">
+    <div class="container" style="max-width:900px;">
+        <div class="cta-contact-box text-center">
+            <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 rounded-pill px-3 py-1 fw-bold mb-3 d-inline-block">Get Started Today</span>
+            <h2 class="fw-extrabold text-white display-5 mb-3">Ready to Scale Your<br>Facebook Operations?</h2>
+            <p class="text-light mb-5" style="opacity:0.85; font-size:17px;">Get FBM Prime today and have your automation pipeline live within 24 hours.</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap mb-5">
+                <a href="https://wa.me/923241703901?text=Hello!+I+want+to+purchase+FBM+Prime" target="_blank" rel="noopener noreferrer" class="btn-wa-cta fs-5 px-5 py-3">
+                    <i class="fa-brands fa-whatsapp fs-4"></i> Purchase on WhatsApp
+                </a>
+                <a href="#faq" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-semibold">
+                    <i class="fa-solid fa-question-circle me-1"></i> Read FAQ First
+                </a>
+            </div>
+            <div class="d-flex justify-content-center gap-4 flex-wrap">
+                <div class="d-flex align-items-center gap-2 text-light small"><i class="fa-brands fa-whatsapp text-success fs-5"></i><a href="https://wa.me/923241703901" target="_blank" rel="noopener noreferrer" class="text-white fw-bold text-decoration-none">+92 324 1703901</a></div>
+                <div class="d-flex align-items-center gap-2 text-light small"><i class="fa-brands fa-telegram text-info fs-5"></i><a href="https://t.me/Fbmprime" target="_blank" rel="noopener noreferrer" class="text-white fw-bold text-decoration-none">@Fbmprime</a></div>
+                <div class="d-flex align-items-center gap-2 text-light small"><i class="fa-solid fa-envelope text-warning fs-5"></i><a href="mailto:fbmprime@gmail.com" class="text-white fw-bold text-decoration-none">fbmprime@gmail.com</a></div>
+                <div class="d-flex align-items-center gap-2 text-light small"><i class="fa-solid fa-clock text-primary fs-5"></i><span>Response: Within 1–2 hours</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container text-center">
+        <div class="foot-logo mb-2">FBMPrime</div>
+        <p class="small mb-3">Professional Facebook Automation Software &mdash; Windows Platform</p>
+        <div class="d-flex justify-content-center gap-3 mb-4">
+            <a href="https://wa.me/923241703901" target="_blank" rel="noopener noreferrer" class="text-light fs-5" title="+92 324 1703901"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://t.me/Fbmprime" target="_blank" rel="noopener noreferrer" class="text-light fs-5" title="@Fbmprime"><i class="fa-brands fa-telegram"></i></a>
+            <a href="mailto:fbmprime@gmail.com" class="text-light fs-5" title="fbmprime@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+            <a href="https://github.com/mrtechpk1-ai/FBMprime" target="_blank" rel="noopener noreferrer" class="text-light fs-5"><i class="fa-brands fa-github"></i></a>
+        </div>
+        <p class="small" style="color:#475569;max-width:700px;margin:0 auto;">&#9888; This software is intended for educational and marketing research purposes only. Users are solely responsible for complying with Facebook's Terms of Service and applicable local laws. FBM Prime is not affiliated with Meta Platforms, Inc.</p>
+        <p class="mt-3 small" style="color:#334155;">&copy; 2026 FBMPrime by Muhammad Ahmed Ali. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 800, once: true, offset: 60 });
+
+    // FAQ Toggle
+    function toggleFaq(el) {
+        var isOpen = el.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(function(f) { f.classList.remove('open'); });
+        if (!isOpen) el.classList.add('open');
+    }
+
+    // Back to Top
+    var btt = document.getElementById('btt');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) btt.classList.add('show');
+        else btt.classList.remove('show');
+    });
+    btt.addEventListener('click', function() { window.scrollTo({top: 0, behavior: 'smooth'}); });
+
+    // Typewriter
+    const typeWords = ["Never Seen Before", "Always Dreamed Of", "Zero Manual Work", "Full Autopilot"];
+    let tw_i = 0, tw_j = 0, isDeleting = false;
+    const tw = document.getElementById("typewriter");
+    if(tw) {
+        function type() {
+            const w = typeWords[tw_i];
+            tw.textContent = isDeleting ? w.substring(0, tw_j - 1) : w.substring(0, tw_j + 1);
+            if (isDeleting) tw_j--; else tw_j++;
+            let speed = isDeleting ? 40 : 80;
+            if (!isDeleting && tw_j === w.length) { speed = 2500; isDeleting = true; }
+            else if (isDeleting && tw_j === 0) { isDeleting = false; tw_i = (tw_i + 1) % typeWords.length; speed = 500; }
+            setTimeout(type, speed);
+        }
+        setTimeout(type, 1500);
+    }
+</script>
+</body>
+</html>

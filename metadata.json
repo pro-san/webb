@@ -1,0 +1,6 @@
+{
+  "name": "FBM Prime — Facebook Automation Software",
+  "description": "Automate FB account registration, smart profile building, and unlimited page creation. Manage your Facebook accounts and posts effortlessly with FBMPrime.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
